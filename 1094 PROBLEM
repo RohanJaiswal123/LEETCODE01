@@ -1,0 +1,24 @@
+class Solution {
+public:
+    bool carPooling(std::vector<std::vector<int>>& trips, int capacity) {
+        std::map<int, int> passengerChanges; // location -> net passenger change
+
+        for (const auto& trip : trips) {
+            int numPassengers = trip[0];
+            int fromLocation = trip[1];
+            int toLocation = trip[2];
+
+            passengerChanges[fromLocation] += numPassengers;
+            passengerChanges[toLocation] -= numPassengers;
+        }
+
+        int currentPassengers = 0;
+        for (const auto& entry : passengerChanges) {
+            currentPassengers += entry.second;
+            if (currentPassengers > capacity) {
+                return false;
+            }
+        }
+        return true;
+    }
+};
