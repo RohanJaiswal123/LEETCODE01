@@ -1,0 +1,25 @@
+class Solution {
+public:
+    int maximumPopulation(vector<vector<int>>& logs) {
+        int life[101] = {0}; // years 1950–2050 → size 101
+        
+        for (auto &log : logs) {
+            int birth = log[0], death = log[1];
+            life[birth - 1950]++;   // person born
+            life[death - 1950]--;   // person died (not counted in death year)
+        }
+        
+        int maxPop = 0, year = 1950;
+        int curr = 0;
+        
+        for (int i = 0; i < 101; i++) {
+            curr += life[i];  // prefix sum
+            if (curr > maxPop) {
+                maxPop = curr;
+                year = 1950 + i;
+            }
+        }
+        
+        return year;
+    }
+};
