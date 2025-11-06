@@ -1,0 +1,29 @@
+int twoStacks(int maxSum, vector<int> a, vector<int> b) {
+    int i = 0, j = 0, ans = 0;
+    long long sum = 0;
+
+    // Step 1: Take as many as possible from stack a
+    while (i < (int)a.size() && sum + a[i] <= maxSum) {
+        sum += a[i];
+        i++;
+    }
+
+    ans = i;
+    while (j < (int)b.size()) {
+        sum += b[j];
+        j++;
+
+        while (sum > maxSum && i > 0) {
+            i--;
+            sum -= a[i];
+        }
+
+        if (sum <= maxSum && i + j > ans)
+            ans = i + j;
+
+        if (sum > maxSum && i == 0)
+            break;
+    }
+
+    return ans;
+}
